@@ -1,6 +1,33 @@
 package fileutil
 
-import "testing"
+import (
+  "testing"
+  "os"
+  "fmt"
+)
+
+func TestMain(m *testing.M) {
+  setup()
+  retCode := m.Run()
+  tearDown()
+  os.Exit(retCode)
+}
+
+func setup() { }
+
+func tearDown() {
+  err := os.Remove("test/file2.txt")
+
+  if err != nil {
+    fmt.Println("[Teardown problem] - can't remove file2.txt.")
+  }
+
+  err = os.Remove("test/file3.txt")
+
+  if err != nil {
+    fmt.Println("[Teardown problem] - can't remove file3.txt.")
+  }
+}
 
 // Test for the existence
 func TestExistsFile1(t *testing.T) {
@@ -99,6 +126,41 @@ func TestReadFileFail(t *testing.T) {
   }
 }
 
+// Test to write content into file
 func TestWriteFile2(t *testing.T) {
   err := WriteFile("test/file2.txt", "Having fun")
+
+  if err != nil {
+    t.Error("Should be able to write content to file.")
+  }
+}
+
+// Test to try to write content on a non-existing file
+func TestWriteFileFail(t *testing.T) {
+  err := WriteFile("bouya", "Having fun")
+
+  if err.Error() != "Can't write to file: file doesn't not exists." {
+    t.Error("Should not be able to write any content.")
+  }
+}
+
+// Test to create a file with content from a template
+func TestCreateFromTemplate(t *testing.T) {
+  err := CreateFromTemplate("test/file1.txt", "test/file3.txt", "{pattern}", "file")
+
+  if err != nil {
+    t.Error("Should be able to create file from template.")
+  }
+
+  bytes, err := ReadFile("test/file3.txt")
+  content := string(bytes)
+  shouldbe := `This is a file.
+
+This is a file.
+
+This is not a {pattern.`
+
+  if content != shouldbe {
+    t.Error("The content is not has it is expected.")
+  }
 }

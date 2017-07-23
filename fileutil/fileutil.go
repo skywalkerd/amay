@@ -78,7 +78,10 @@ func ReadFile(path string) ([]byte, error) {
 
 // Writes content to a specified path
 func WriteFile(path string, content string) error {
-  return ioutil.WriteFile(path, []byte(content), 0644)
+  if exist, _ := Exists(path); exist {
+    return ioutil.WriteFile(path, []byte(content), 0644)
+  }
+  return errors.New("Can't write to file: file doesn't not exists.")
 }
 
 // Creates a file to a specified destination path from a specified template path. It changes all occurrences of patterns
