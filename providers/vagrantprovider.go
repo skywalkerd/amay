@@ -15,16 +15,43 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-package main
+package providers
 
-import (
-  "github.com/urfave/cli"
-  "fmt"
-)
+// Implementation of the Vagrant provider
+type VagrantProvider struct {
+  Provider
 
-// Handles the initialization of a `amay` domain
-func InitAction(c *cli.Context) error {
-  fmt.Println("Initiating domain")
+  image string
+  cpuCount int
+  ramAmount int
+}
 
-  return nil
+// Gets the vagrant's image name
+func (v VagrantProvider) GetImage() string {
+  return v.image
+}
+
+// Sets the vagrant's image name
+func (v VagrantProvider) SetImage(image string) {
+  v.image = image
+}
+
+// Gets the vagrant's cpu(s) count
+func (v VagrantProvider) GetCpuCount() int {
+  return v.cpuCount
+}
+
+// Sets the vagrant's cpu(s) count
+func (v VagrantProvider) SetCpuCount(cpuCount int) {
+  v.cpuCount = cpuCount
+}
+
+// Gets the amount of RAM memory
+func (v VagrantProvider) GetRamAmount() int {
+  return v.ramAmount
+}
+
+// Sets the amount of RAM memory
+func (v VagrantProvider) SetRamAmount(ramAmount int) {
+  v.ramAmount = ramAmount
 }

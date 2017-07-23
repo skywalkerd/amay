@@ -15,16 +15,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-package main
+package fileutil
 
-import (
-  "github.com/urfave/cli"
-  "fmt"
-)
+type YamlFile struct {
+  File
 
-// Handles the initialization of a `amay` domain
-func InitAction(c *cli.Context) error {
-  fmt.Println("Initiating domain")
-
-  return nil
 }
+

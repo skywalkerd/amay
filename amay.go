@@ -1,6 +1,6 @@
 // amay
 // Copyright (C) 2017+ skywalkerd and the project contributors
-// Written by A. Jacques <andre.jacques@protonmail.com> and the project contributors
+// Written by skywalkerd <andre.jacques@protonmail.com> and the project contributors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published by
