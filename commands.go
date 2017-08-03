@@ -20,11 +20,48 @@ package main
 import (
   "github.com/urfave/cli"
   "fmt"
+  "github.com/skywalkerd/amay/providers"
+  "github.com/skywalkerd/amay/fileutil"
+  "gopkg.in/yaml.v2"
 )
 
 // Handles the initialization of a `amay` domain
 func InitAction(c *cli.Context) error {
   fmt.Println("Initiating domain")
 
+  if GetGeneralConfig(c) != "" {
+    generalConfig, err := loadConfig(GetGeneralConfig(c))
+
+    if err == nil {
+      fmt.Println("Current working domain:", generalConfig.Domain)
+    }
+  }
+
   return nil
+}
+
+func loadConfig(path string) (providers.GeneralConfig, error) {
+  fmt.Println("Loading config", path)
+
+  bytes, err := fileutil.ReadFile(path)
+
+  if err != nil {
+    fmt.Println("Can't read file")
+    return providers.GeneralConfig{}, err
+  }
+
+  result := providers.GeneralConfig{}
+
+  err = yaml.Unmarshal(bytes, &result)
+
+  fmt.Println("result:", result.Domain)
+
+  if err != nil {
+    fmt.Println("Can't process bytes to GeneralConfig struct")
+    return result, err
+  } else {
+    fmt.Println("Config loaded")
+    return result, err
+  }
+
 }

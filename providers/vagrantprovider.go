@@ -17,17 +17,31 @@
 
 package providers
 
+import "github.com/skywalkerd/amay/fileutil"
+
+const (
+  imageField = "image"
+  boxUrlField = "boxUrl"
+  folderHostField = "folderHost"
+  folderVmField = "folderVm"
+  provisionFilePathField = "provisionFilePath"
+  domainField = "domain"
+  subDomainField = "subDomain"
+  cpuCountField = "cpuCount"
+  ramAmountField = "ramAmount"
+)
+
 // Implementation of the Vagrant provider
 type VagrantProvider struct {
   Provider
+  fileutil.Template
 
-  image string
-  cpuCount int
-  ramAmount int
+  image, boxUrl, folderHost, folderVm, provisionFilePath, domain, subDomain string
+  cpuCount, ramAmount int
 }
 
 // Gets the vagrant's image name
-func (v VagrantProvider) GetImage() string {
+func (v VagrantProvider) Image() string {
   return v.image
 }
 
@@ -36,8 +50,56 @@ func (v VagrantProvider) SetImage(image string) {
   v.image = image
 }
 
+func (v VagrantProvider) BoxUrl() string {
+  return v.boxUrl
+}
+
+func (v VagrantProvider) SetBoxUrl(boxUrl string) {
+  v.boxUrl = boxUrl
+}
+
+func (v VagrantProvider) FolderHost() string {
+  return v.folderHost
+}
+
+func (v VagrantProvider) SetFolderHost(folderHost string) {
+  v.folderHost = folderHost
+}
+
+func (v VagrantProvider) FolderVm() string {
+  return v.folderVm
+}
+
+func (v VagrantProvider) SetFolderVm(folderVm string) {
+  v.folderVm = folderVm
+}
+
+func (v VagrantProvider) ProvisionFilePath() string {
+  return v.provisionFilePath
+}
+
+func (v VagrantProvider) SetProvisionFilePath(provisionfilePath string) {
+  v.provisionFilePath = provisionfilePath
+}
+
+func (v VagrantProvider) Domain() string {
+  return v.domain
+}
+
+func (v VagrantProvider) SetDomain(domain string) {
+  v.domain = domain
+}
+
+func (v VagrantProvider) SubDomain() string {
+  return v.subDomain
+}
+
+func (v VagrantProvider) SetSubDomain(subDomain string) {
+  v.subDomain = subDomain
+}
+
 // Gets the vagrant's cpu(s) count
-func (v VagrantProvider) GetCpuCount() int {
+func (v VagrantProvider) CpuCount() int {
   return v.cpuCount
 }
 
@@ -47,11 +109,23 @@ func (v VagrantProvider) SetCpuCount(cpuCount int) {
 }
 
 // Gets the amount of RAM memory
-func (v VagrantProvider) GetRamAmount() int {
+func (v VagrantProvider) RamAmount() int {
   return v.ramAmount
 }
 
 // Sets the amount of RAM memory
 func (v VagrantProvider) SetRamAmount(ramAmount int) {
   v.ramAmount = ramAmount
+}
+
+func (v VagrantProvider) Apply() {
+  v.AddPattern(imageField, v.Image())
+  v.AddPattern(boxUrlField, v.BoxUrl())
+  v.AddPattern(folderHostField, v.FolderHost())
+  v.AddPattern(folderVmField, v.FolderVm())
+  v.AddPattern(provisionFilePathField, v.ProvisionFilePath())
+  v.AddPattern(domainField, v.Domain())
+  v.AddPattern(subDomainField, v.SubDomain())
+  v.AddPattern(cpuCountField, string(v.CpuCount()))
+  v.AddPattern(ramAmountField, string(v.RamAmount()))
 }

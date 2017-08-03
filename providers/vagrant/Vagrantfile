@@ -1,0 +1,16 @@
+# Vagrant Template for `amay`
+Vagrant.configure(2) do |config|
+
+  config.vm.box = "{image}"
+
+  config.vm.box_url = "{boxUrl}"
+
+  config.vm.synced_folder = "{folderHost}" "{folderVM}"
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.memory = "{ramAmount}"
+    vb.cpus = "{cpuCount}"
+  end
+
+  config.provision "shell", path: "{provisionFilePath}", args: "{fullDomain}"
+end

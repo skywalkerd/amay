@@ -33,7 +33,7 @@ func main() {
     {
       Name: "init",
       Usage: "Initializes a new `amay` domain",
-      Flags: []cli.Flag { ProviderFlag, DomainFlag, },
+      Flags: []cli.Flag { DomainFlag, GeneralConfigFlag },
       Action: InitAction,
     },
   }

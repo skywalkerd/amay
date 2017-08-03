@@ -29,22 +29,23 @@ var (
     Name: "domain, d",
     Usage: "Specifies the targeted domain",
   }
+
+  GeneralConfigFlag = cli.StringFlag {
+    Name: "config",
+    Usage: "Specifies the top-level config file",
+  }
 )
 
 // Gets the provider flag value
 func GetProvider(c *cli.Context) string {
-  if c.String("provider") != "" {
-    return c.String("provider")
-  }
-
-  return ""
+  return c.String("provider")
 }
 
 // Gets the domain flag value
 func GetDomain(c *cli.Context) string {
-  if c.String("domain") != "" {
-    return c.String("domain")
-  }
+  return c.String("domain")
+}
 
-  return ""
+func GetGeneralConfig(c *cli.Context) string {
+  return c.String("config")
 }

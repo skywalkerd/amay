@@ -17,56 +17,29 @@
 
 package fileutil
 
-type IFile interface {
-  Read() error
-  Save() error
+import "testing"
+
+func TestFileExist(t *testing.T) {
+  file := File { path: "test/file1.txt" }
+
+  file.Read()
+
+  expected := `This is a file.
+
+This is a {pattern}.
+
+This is not a {pattern.`
+
+  if file.Content() != expected {
+    t.Error("Can't read file content.")
+  }
 }
 
-// Holds all information in regard of a file
-type File struct {
-  path, content string
-}
+func TestFileNotExist(t *testing.T) {
+  file := File { path: "test/fileNotExist.txt", content: "This is awesome\nThis is amazing" }
 
-// Gets the path of a file
-func (f File) Path() string {
-  return f.path
-}
-
-// Sets the path of a file
-func (f *File) SetPath(path string) {
-  f.path = path
-}
-
-// Gets the content of a file
-func (f File) Content() string {
-  return f.content
-}
-
-// Sets the content of a file
-func (f *File) SetContent(content string) {
-  f.content = content
-}
-
-// Reads the content of the file
-func (f *File) Read() error {
-  bytes, err := ReadFile(f.path)
-
-  if err == nil {
-    content := string(bytes)
-    f.SetContent(content)
-    return nil
+  if err := file.Save(); err != nil {
+    t.Error("Can't save file content.")
   }
 
-  return err
-}
-
-// Saves the file
-func (f File) Save() error {
-  err := CreateFile(f.Path())
-
-  if err == nil {
-    err = WriteFile(f.Path(), f.Content())
-  }
-
-  return err
 }
